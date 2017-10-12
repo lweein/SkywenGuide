@@ -1,0 +1,99 @@
+.left{/*页面左部*/
+	position:absolute;
+	top:0;
+	left:0;
+	bottom:0;
+	width:230px;
+	background:#30333C;
+}
+	.left .logo{/*logo图标*/
+		padding: 10px 0;
+		border-bottom: 1px solid rgba(255,255,255,.04);
+		height:130px;
+	}
+		.left .logo a{
+			display:block;
+			box-sizing: border-box;
+			color: #fff;
+			text-align:center;
+			display:block;
+		}
+		.left .logo a img{
+			width:180px;
+			height:90px;;
+		}
+		.left .logo a p{
+			color:#b1b1b1;
+		}
+	.left ul.menu{/*网址分类*/
+	}
+
+		.left ul.menu>a{
+			cursor:pointer;
+			transition:.2s;
+			border-bottom:1px solid #383B44;
+			display:block;
+			font-weight: 700;
+			color:#fff;
+			font-size:15px;
+			text-indent:19px;
+			padding:20px;
+		}
+		.left ul.menu>a:hover,.left ul.menu>a.active{
+			#background:#F1F2F8;
+			background:#fff;
+			color:#333;
+		}
+			.left ul.menu>ul>a{
+				display: block;
+				padding:10px;
+				text-align:center;
+				text-align:left;
+				text-indent:50px;
+				position:relative;
+				color:#686868;
+			}
+				.left ul.menu>ul>a:hover{
+					color:#FFF;
+				}
+					.left ul.menu>ul>a>.tag{
+						position:absolute;
+						left:40px;
+						width:4px;
+						height:15px;
+						background:transparent;
+						display:inline-block;
+						border-radius:4px;
+					}
+					.left ul.menu>ul>a.active>.tag{
+						background:#FFF;
+					}
+.right{/*页面右面*/
+	position:fixed;
+	min-width:600px;
+	top:0;
+	left:230px;
+	right:0;
+	bottom:0;
+	background:#F1F2F8;
+}
+	.right_top{
+		padding:10px;
+		height:70px;
+		border-bottom:1px solid #b1b1b1;
+	}
+		.right_top .box{
+			float:right;
+			height:100%;
+			padding:5px;
+		}
+			.right_top .box img{
+				display:inline-block;
+				width:40px;
+				height:40px;
+				border-radius:20px;
+				border:1px solid #b1b1b1;
+			}
+	.right_bottom{
+		
+	}

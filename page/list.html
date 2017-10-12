@@ -1,0 +1,542 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>分类管理</title>
+  <link href="../main/frame/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../main/css/main.css" />
+  <link rel="stylesheet" href="../main/frame/caomei/style.css" />
+   <script src="../main/js/jquery-2.0.0.min.js"></script>
+   <script src="../main/frame/bootstrap/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="../main/js/reunite0.0.3.js"></script>
+   <style type="text/css">
+	body{
+		font-family:"microsoft YaHei";
+	}
+	*{
+		cursor:default;
+	}
+	/*一级分类标题*/
+	.listTitle{
+		font-size:17px;
+		font-weight:bold;
+		border-bottom:3px solid #D9D9D9;
+		padding:5px 0; 
+	}
+		.listTitle span{
+			border-bottom:3px solid #e20000;
+			padding:5px 10px;
+		}
+	.box{
+		position:relative;
+		list-style:none;
+		padding:40px 20px 0 25px;
+	}
+	.titleBox{
+		position:relative;
+		list-style:none;
+		padding:0px 20px 0 25px;
+	}
+	.cell{
+		margin-bottom:20px;
+		box-sizing:border-box;
+		text-align:left;
+	}
+		.cell>div{
+			box-shadow:0 0 7px 1px rgba(120,120,120,.4);
+			border-radius:4px;
+			font-size:15px;
+			font-weight:bold;
+			padding:10px 20px;
+			box-sizing:border-box;
+			position:relative;
+		}
+		.cell>div:hover{
+			background:#efefef;
+		}
+	.cell .add{
+		line-height:48px;
+		text-align:center;
+	}
+		.cell .logo{
+			width:40px;
+			height:40px;
+			background:#30333C;
+			display:inline-block;
+			vertical-align:top;
+			border-radius:50%;
+			padding:7px;
+			box-sizing:border-box;
+		}
+		.cell .logo i{
+			display:inline-block;
+			padding:1px;
+			font-size:25px;
+			color:#FFF;
+		}
+		.cell .text{
+			display:inline-block;
+			vertical-align:top;
+			padding-left:10px;
+		}
+			.cell .text h4{
+				margin:5px 0 0 0;
+				font-size:15px;
+			}
+			.cell .text p{
+				font-size:12px;
+				font-weight:normal;
+			}
+		.cell .control{
+			display:inline-block;
+			vertical-align:bottom;
+			position:absolute;
+			right:5px;
+			bottom:5px;
+		}
+			.cell .control button{
+				background-size:20px 20px;
+				background-position:5px 2px;
+				background-repeat:no-repeat;
+				background-color:transparent;
+				border:none;
+				width:30px;
+				height:25px;
+				padding:0;
+				vertical-align:bottom;
+				outline:none;
+			}
+			.cell .control .edit{
+				background-image:url("../main/img/edit.svg");
+			}
+			.cell .control .delete{
+				background-image:url("../main/img/del.svg");
+			}
+		/*二级分类标题*/
+	.groupTitle{
+		font-size:15px;
+		font-weight:bold;
+		border-bottom:2px solid #eee;
+		padding:0;
+		margin:0 15px;
+	}
+		.groupTitle span{
+			border-bottom:2px solid transparent;
+			padding:5px 0 10px 0;
+			margin-right:20px;
+			cursor:pointer;
+			display:inline-block;
+			margin-bottom:-2px;
+		}
+
+		.groupTitle span.active{
+			border-color:#696969;
+		}
+		.groupTitle i{
+			margin-right:5px;
+		}	
+	/*模态框*/
+		.model{
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background:transparent;
+			display:none;
+		}
+		.modelBox{
+			box-shadow:2px 2px 10px 3px rgba(120,120,120,.5);
+			padding:20px;
+			width:450px;
+			margin:30px auto;
+			background:#fff;
+			border-radius:3px;
+			#border:1px solid #AAA;
+			overflow:hidden;
+		}
+			.boxTitle{
+				margin:-20px -20px 0 -20px;
+				padding:15px 0;
+				text-align:center;
+				background:#e20000;
+				color:#fff;
+				font-size:17px;
+				font-weight:bold;
+			}
+			.listSelectBox{
+				padding-top:10px;
+				display:none;
+			}
+			.listSelectBox>span{
+				border:2px solid transparent;
+				border-radius:3px;
+				padding:2px 10px;
+				margin:10px 13px 0 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				display:inline-block;
+				width:128px;
+				box-shadow:0 0 7px 2px rgba(120,120,120,.4);
+			}
+			.listSelectBox>span>i{
+				margin-right:5px;
+			}
+			.listSelectBox>span:nth-child(3),.listSelectBox>span:nth-child(7){
+				margin-right:0;
+			}
+			.listSelectBox>span.active{
+				background:#e20000;
+				color:#fff;
+			}
+			.iconInput{
+				display:block;
+				width:100%;
+				box-sizing:border-box;
+				margin-top:10px;
+				padding:3px;
+				border:none;
+				border-bottom:2px solid #DFDFDF;
+				outline:none;
+			}
+			.iconTitle{
+				font-size:14px;
+				font-weight:bold;
+				margin-top:20px;
+				text-indent:3px;
+			}
+			.iconSearch{
+				vertical-align:middle;
+				margin-bottom:10px;
+			}
+				.iconSearch span{
+					border:1px solid #AAAAAA;
+					display:inline-block;
+					height:40px;
+					width:40px;
+					vertical-align:bottom;
+					font-size:37px;
+					padding-left:1px;
+					border-radius:3px;
+					text-align:center;
+				}
+				.iconSearch input{
+					vertical-align:bottom;
+					margin-left:10px;
+					text-indent:5px;
+					outline:none;
+				}
+			.iconBox{
+				height:100px;
+				overflow:auto;
+				padding:1px 0 0 1px;
+				margin-top:15px;
+			}
+			.iconBox>i{
+				display:inline-block;
+				border:1px solid #aaa;
+				width:30px;
+				padding:8px;
+				height:30px;
+				margin:-1px 0 0 -1px;
+			}
+			.iconBox>i.active{
+				background:#D8D8D7;
+			}
+			.btnGroup{
+				text-align:center;
+				margin-top:20px;
+			}
+			.btnGroup button{
+				border-radius:3px;
+				outline:none;
+				border:1px solid transparent;
+				width:110px;
+				font-size:12px;
+				display:inline-block;
+				height:30px;
+			}
+			.btnGroup button.confirm{
+				background:#e20000;
+				color:#fff;
+				margin-right:15px;
+				
+			}
+			.btnGroup button.confirm:hover{
+				background:linear-gradient(to bottom,#FF4040,#e20000);
+			}
+			.btnGroup button.cancel{
+				background:#fff;
+				color:#AAA;
+				border-color:#AAA;
+				margin-left:15px;
+			}
+			.btnGroup button.cancel:hover{
+				background:linear-gradient(to bottom,#FFF,#DEDEDE);
+				color:#777;
+			}
+   </style>
+ </head>
+ <body>
+		<ul class="box col-xs-12" id="listBox"></ul><!-- 分类列表 -->
+		<div class="titleBox col-xs-12"><div class="groupTitle" id="groupTitle"></div></div><!-- 分类选择 -->
+		<ul class="box col-xs-12" id="groupBox"></ul><!-- 分组列表 -->
+		<div class="model"><!-- 模态框 -->
+			<div class="modelBox">
+				<h6 class="boxTitle" id="title">添加分类</h6>
+				<div class="listSelectBox" id="listSelectBox"></div><!-- 分类选择列表(分组专属) -->
+				<input class="iconInput" type="" placeholder="分类名称" id="name" />
+				<input class="iconInput" type="" placeholder="分类排序" id="sort" />
+				<h4 class="iconTitle" id="icon">图标选择</h4>
+				<div class="iconSearch"><span class="" id="showIcon"></span><input type="text" id="searchText" case="searchText" placeholder="搜索合适的图标"/></div>
+				<div class="iconBox" id="iconBox"></div><!-- 标签盒子 -->
+				<div class="btnGroup">
+					<button class="confirm" case="iconConfirm">确定 CONFIRM</button>
+					<button class="cancel" case="iconCancel">取消 CANCEL</button>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="../main/frame/layer/layer.js"></script>
+	<script type="text/javascript">
+		var data={
+			getList:false,
+			getGroup:false,
+			list:[],
+			group:[],
+			icons:" czs-server, czs-server-l, czs-servers, czs-hacker, czs-keyboard, czs-keyboard-l, czs-command, czs-command-l, czs-usb, czs-usb-l, czs-bug, czs-bug-l, czs-save, czs-save-l, czs-code-file, czs-code-file-l, czs-program, czs-configuration, czs-tab-select, czs-platform, czs-tab, czs-microchip, czs-control, czs-control-rank, czs-code-plugin-l, czs-code-l, czs-operation, czs-code-edit-l, czs-storage-l, czs-code-branch, czs-code-fork, czs-circle-o, czs-circle-l, czs-square-o, czs-square-l, czs-triangle-o, czs-triangle-l, czs-camber-o, czs-camber-l, czs-cup, czs-cup-l, czs-calendar, czs-calendar-l, czs-home, czs-home-l, czs-image, czs-image-l, czs-buy, czs-buy-l, czs-comment, czs-comment-l, czs-chemistry, czs-chemistry-l, czs-bookmark, czs-bookmark-l, czs-book, czs-book-l, czs-building, czs-building-l, czs-game, czs-game-l, czs-headset, czs-headset-l, czs-gift, czs-gift-l, czs-heart, czs-heart-l, czs-printer, czs-printer-l, czs-inbox, czs-inbox-l, czs-right-clipboard, czs-right-clipboard-l, czs-list-clipboard, czs-list-clipboard-l, czs-talk, czs-talk-l, czs-time, czs-time-l, czs-bar-chart, czs-bar-chart-l, czs-lock, czs-lock-l, czs-music, czs-music-l, czs-music-note, czs-music-note-l, czs-film, czs-film-l, czs-light, czs-light-l, czs-medal, czs-medal-l, czs-mouse, czs-mouse-l, czs-microphone, czs-microphone-l, czs-volume, czs-volume-l, czs-watch, czs-watch-l, czs-tag, czs-tag-l, czs-webcam, czs-webcam-l, czs-setting, czs-setting-l, czs-star, czs-star-l, czs-bell, czs-bell-l, czs-cloud, czs-cloud-l, czs-battery, czs-battery-l, czs-airplane, czs-airplane-l, czs-trash, czs-trash-l, czs-file, czs-file-l, czs-doc-file, czs-doc-file-l, czs-computer, czs-computer-l, czs-laptop, czs-laptop-l, czs-mobile, czs-mobile-l, czs-user, czs-user-l, czs-message, czs-message-l, czs-camera, czs-camera-l, czs-location, czs-location-l, czs-read, czs-read-l, czs-clock, czs-clock-l, czs-bluetooth, czs-bluetooth-l, czs-calculator, czs-calculator-l, czs-coin, czs-coin-l, czs-briefcase, czs-briefcase-l, czs-eye, czs-eye-l, czs-ruler, czs-ruler-l, czs-clothes, czs-clothes-l, czs-brush, czs-brush-l, czs-rollerbrush, czs-rollerbrush-l, czs-triangle, czs-square, czs-circle, czs-camber, czs-x-buy-l, czs-paper-plane, czs-quote-left, czs-quote-right, czs-d-space, czs-thumbs-up, czs-wifi, czs-pixels, czs-prototype, czs-vector-design, czs-connection, czs-forum, czs-user-framework, czs-analysis, czs-collection, czs-data-test, czs-web-edit, czs-font, czs-overlapping, czs-pad, czs-layers, czs-layout-grid, czs-layout-grids, czs-layout-list, czs-paper, czs-people, czs-pokemon-ball, czs-red-envelope, czs-money, czs-d-glasses, czs-add, czs-share, czs-pen, czs-pen-write, czs-come-l, czs-out-l, czs-qrcode-l, czs-scan-l, czs-volume-x-l, czs-info-l, czs-scissors, czs-link-l, czs-location-l, czs-choose-list-l, czs-write-l, czs-message-l, czs-blackboard-l, czs-thumbs-up-l, czs-transmission-l, czs-wrench-l, czs-time-plugin-l, czs-label-info-l, czs-sword-l, czs-product-l, czs-doc-edit, czs-new-l, czs-newspaper-l, czs-prototype-select-l, czs-construct-l, czs-container-l, czs-detect-l, czs-git-l, czs-program-framework-l, czs-aso-l, czs-network-l, czs-site-folder-l, czs-association-l, czs-certificate, czs-design-edit-l, czs-design-shape-l, czs-fire-l, czs-folder-l, czs-geometry-shape-l, czs-light-flash-l, czs-book-l, czs-bookmark-l, czs-clip-l, czs-close-l, czs-cloud-l, czs-comment-l, czs-diamond-l, czs-download-l, czs-eye-l, czs-heart-l, czs-menu-l, czs-category-l, czs-message-l, czs-mouse-l, czs-search-l, czs-setting-l, czs-shield-l, czs-tag-l, czs-trash-l, czs-upload-l, czs-world-l, czs-write-l, czs-headset, czs-headset-l, czs-image, czs-image-l, czs-camera, czs-camera-l, czs-microphone, czs-microphone-l, czs-music, czs-music-l, czs-music-note, czs-music-note-l, czs-volume, czs-volume-l, czs-video-file, czs-video-file-l, czs-music-file, czs-music-file-l, czs-slider-l, czs-play-l, czs-pause-l, czs-video-camera-l, czs-angle-down-l, czs-angle-left-l, czs-angle-right-l, czs-angle-up-l, czs-arrow-down-l, czs-arrow-up-l, czs-hand-bevel, czs-hand-slide, czs-hand-gather, czs-hande-vertical, czs-hand-Horizontal, czs-hand-button, czs-hand-touch, czs-hand-pointer, czs-hand-grasp, czs-hand-stop, czs-android, czs-apple, czs-chrome, czs-css3, czs-dribbble, czs-dropbox, czs-facebook, czs-github, czs-html5, czs-linux, czs-microsoft, czs-rss, czs-steam, czs-twitter, czs-vimeo, czs-wordpress, czs-youtube, czs-weixin, czs-QQ, czs-pengyouquan, czs-taobao, czs-tmall, czs-weibo, czs-weixinzhifu, czs-alipay, czs-bitcoin, czs-baiduwangpan, czs-caomei, czs-v2ex, czs-bilibili, czs-chuangzaoshi"
+		}
+		data.icons=data.icons.split(",");
+		
+		function searchIcons(name){
+			if(name==null){
+				name="";
+			}
+			var str="";
+			data.icons.map(function(e){//添加所有IOCN;
+				if(e.indexOf(name)>-1){
+					str+='<i class="'+e+'" case="iconBtn"></i>';
+				}
+			})
+			$("#iconBox").html(str);	
+		}
+		searchIcons();
+		$.get("../api/group/getAll.php",function(e){//获取所有分组
+			var json=JSON.parse(e);
+			if(json.result=="success"){
+				data.getGroup=true;
+				data.group=json.msg;
+			}
+		});
+		$.get('../api/list/getAll.php',function(e){//获取所有分类
+			var json=JSON.parse(e);
+			if(json.result='success'){
+				data.getList=true;
+				data.list=json.msg;
+				
+				var str=data.list.length<5?'<li class="cell col-sm-6 col-md-3"><div class="add" case="addList">＋ 添加一级分类</div></li>':'';
+				var str1="";//模态框内选择分类
+				var str2="";//页面选择分类
+				json.msg.map(function(e,i){
+					str+='<li class="cell  col-sm-6 col-md-3" ><div lid="'+e.list_id+'">';
+					str+='<div class="logo"><i class="'+e.list_icon+'"></i></div>';
+					str+='<div class="text"><h4 class="title">'+e.list_name+'</h4><p class="type">一级分类</p></div>';
+					str+='<div class="control"><button class="edit" case="editList"></button><button class="delete" case="deleList"></button></div></div></li>';
+					var getUrlLid=urlGet('lid');
+					if(getUrlLid!=null){//判断网址url中lid参数
+						str1+='<span case="listSelect" lid="'+e.list_id+'" '+(e.list_id==getUrlLid?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+						str2+='<span case="groupTitle" lid="'+e.list_id+'" '+(e.list_id==getUrlLid?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+					}
+					else{
+						str1+='<span case="listSelect" lid="'+e.list_id+'" '+(i==0?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+						str2+='<span case="groupTitle" lid="'+e.list_id+'" '+(i==0?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+					}
+				});
+				$('#listBox').html(str);
+				$('#listSelectBox').html(str1);
+				str2+='<span case="groupTitle" lid="default"><i class="czs-info-l"></i>未分组</span>';//增加失落分组分类
+				$('#groupTitle').html(str2);
+			}
+		});
+		function getGroups(lid){//分组渲染数据
+			for (var i=0;i<data.list.length ;i++ )
+			{
+				var str=lid=="default"?"":'<li class="cell col-sm-6 col-md-3"><div class="add" case="addGroup">＋ 添加二级分类</div></li>';
+				if(data.list[i].list_id==lid){
+					data.list[i].group.map(function(e){
+						str+='<li class="cell  col-sm-6 col-md-3"><div gid="'+e.group_id+'">';
+						str+='<div class="logo"><i class="'+e.group_icon+'"></i></div>';
+						str+='<div class="text"><h4 class="title">'+e.group_name+'</h4><p class="type">二级分类</p></div>';
+						str+='<div class="control"><button class="edit" case="editGroup"></button><button class="delete" case="deleGroup"></button></div></div></li>';
+					});
+					$("#groupBox").html(str);
+				}
+			}
+		}
+		var getFirstGroup=setInterval(function(){//数据整理
+			if(data.getList&&data.getGroup){
+				clearInterval(getFirstGroup);
+				var group=data.group;
+				var list=data.list;
+				for (var i=0;i<list.length ;i++ )
+				{
+					var arr=[]
+					for (var j=0;j<group.length ;j++ )
+					{
+						if(group[j].group_lid==list[i].list_id){
+							arr.push.apply(arr,group.splice(j,1));
+							j--;
+						}
+					}
+					list[i].group=arr;
+				}
+				list.push({list_id:"default",group:data.group});
+				data.list=list;
+				getGroups(list[0].list_id);
+			}
+		},0);
+
+		function clearData(){//清除模态框内容
+			$("#title").html("").attr("glue","");
+			$("#name,#sort,#searchText").val("");
+			$("#showIcon").attr("class","");
+			$("#listSelectBox").css("display",'none');
+			searchIcons();
+		}
+	</script>
+
+	<script type="text/javascript">
+		/*分类事件*/
+		event("addList",function(){
+			$("#title").html("添加分类").attr("glue","addList");
+			$(".model").show();
+		})
+		event("editList",function(e){//编辑分类
+			var lid=$(e.target).parents("[lid]").attr("lid");
+			data.list.map(function(e){
+				if(e.list_id==lid){
+					$("#title").html("编辑分类").attr({"glue":"list","lid":lid});
+					$("#name").val(e.list_name);
+					$("#sort").val(e.list_sort);
+					$("#showIcon").attr("class",e.list_icon);
+				}
+			})
+
+			$(".model").show();
+		});	
+		event("deleList",function(e){//删除分类	
+			layer.confirm('确定删除此分类？', {
+			  btn: ['确定','取消'] //按钮
+			}, function(){
+				var lid=$(e.target).parents("[lid]").attr("lid");
+				$.post("../api/list/delete.php",{lid:lid},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						window.location.reload();
+					}
+					else{
+						layer.alert("操作失败:"+json.msg);
+					}	
+				});
+			});
+		});
+
+		/*分组切换*/
+		event("groupTitle",function(e){
+			getGroups($(e.target).attr('lid'));
+			$(e.target).addClass("active").siblings().removeClass("active");
+		});
+		/*分组事件*/
+		event("addGroup",function(){//添加分组
+			var lid=$('#groupTitle .active').attr('lid');
+			$("#title").html("添加分组").attr({"glue":"addGroup","lid":lid});
+			$("#listSelectBox span[lid='"+lid+"']").addClass("active").siblings().removeClass("active");
+			$("#listSelectBox").css("display","block");
+			$(".model").show();
+		})
+		event("editGroup",function(e){//编辑分组
+			var lid=$('#groupTitle .active').attr('lid');
+			var gid=$(e.target).parents("[gid]").attr("gid");
+			data.list.map(function(e){
+				if(e.list_id==lid){
+					e.group.map(function(E){
+						if(E.group_id==gid){
+							$("#title").html("编辑分组").attr({"glue":"group","gid":gid,"lid":lid});
+							$("#listSelectBox").css("display","block");
+							$("#listSelectBox span[lid='"+lid+"']").addClass("active").siblings().removeClass("active");
+							$("#name").val(E.group_name);
+							$("#sort").val(E.group_sort);
+							$("#showIcon").attr("class",E.group_icon);
+						}
+					})
+				}
+			})
+			$(".model").show();
+		});
+		event("deleGroup",function(e){//删除分组	
+			layer.confirm('确定删除此分类？', {
+			  btn: ['确定','取消'] //按钮
+			}, function(){
+				var gid=$(e.target).parents("[gid]").attr("gid");
+				$.post("../api/group/delete.php",{gid:gid},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						window.location.reload();
+					}
+					else{
+						layer.alert("操作失败:"+json.msg);
+					}	
+				});
+			});
+		});
+
+		/*模态框事件*/
+		event("iconBtn",function(e){
+			$("#showIcon").attr("class",$(e.target).attr("class"));
+			$(e.target).addClass("active").siblings().removeClass("active");
+		});
+		event("searchText",function(e){
+			searchIcons($(e.target).val());
+		},"input");
+		event("listSelect",function(e){//取消按钮
+			$(e.target).addClass("active").siblings().removeClass("active");
+		});
+		event("iconCancel",function(e){//取消按钮
+			$(".model").hide();
+			clearData();
+		});
+		event("iconConfirm",function(){//确定按钮
+			var obj={
+				name:$("#name").val(),
+				sort:$("#sort").val(),
+				icon:$("#showIcon").attr("class")
+			}
+			var glue=$("#title").attr("glue");
+			
+			if(glue=="list"){//修改分类
+				obj.lid=$("#title").attr("lid");
+				var url='../api/list/edit.php';
+			}
+			else if(glue=="addList"){//添加分类
+				var url='../api/list/add.php';
+			}
+			else if(glue=="group"){//修改分组
+				obj.lid=$("#listSelectBox .active").attr("lid");
+				obj.gid=$("#title").attr("gid");
+				var url='../api/group/edit.php';
+			}
+			else if(glue=="addGroup"){//添加分组
+				obj.lid=$("#listSelectBox .active").attr("lid");
+				var url='../api/group/add.php';
+			}
+			$.post(url,obj,function(e){
+				var json=JSON.parse(e);
+				if(json.result=="success"){
+					var lid=$("#groupTitle span.active").attr('lid');
+					location.href=(location.origin+location.pathname+"?lid="+lid);
+				}
+			})
+		})
+	</script>
+ </body>
+</html>

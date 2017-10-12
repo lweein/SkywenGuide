@@ -1,0 +1,46 @@
+*{
+	font-family: "PingFangSC-Regular","Helvetica Neue","Microsoft Yahei","微软雅黑";
+	word-wrap: break-word;
+	table-layout: fixed;
+	word-break: break-all;
+	box-sizing: border-box;
+	font-size: 12px;
+	margin:0;
+	padding:0;
+	transition:.2s;
+	outline:none;
+}
+*::-webkit-scrollbar {/*滚动条基色*/
+	width: 5px;
+	background:rgba(0,0,0,.2);
+}
+*::-webkit-scrollbar-thumb {
+	background:rgba(100,100,100,.7);
+	border-radius:2px;
+}
+body,td,th {
+	font-family: "Arial", "Microsoft YaHei", "黑体", "宋体", sans-serif !important;
+}
+body{
+	position:absolute;
+	left:0;
+	right:0;
+	top:0;
+	bottom:0;
+	background:#fff;
+}
+ul,li{
+	list-style:none;
+}
+a,a:hover,a:focus{
+	text-decoration: none;	
+}
+.pace .pace-progress{
+	background:#e20000;
+}
+#wrapper{
+	background:#30333C;
+}
+.hidden{
+	display:none;
+}

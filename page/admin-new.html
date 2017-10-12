@@ -1,0 +1,541 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>分类管理</title>
+  <link href="../main/frame/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../main/css/main.css" />
+  <link rel="stylesheet" href="../main/frame/caomei/style.css" />
+   <script src="../main/js/jquery-2.0.0.min.js"></script>
+   <script src="../main/frame/bootstrap/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="../main/js/reunite0.0.3.js"></script>
+   <style type="text/css">
+	*{
+		cursor:default;
+	}
+	body{
+		background:#F1F2F8;
+	}
+	/*一级分类标题*/
+	.listTitle{
+		font-size:17px;
+		font-weight:bold;
+		border-bottom:3px solid #D9D9D9;
+		padding:5px 0; 
+	}
+	
+		.listTitle span{
+			border-bottom:3px solid #e20000;
+			padding:5px 10px;
+		}
+		.box{
+			background:#fff;
+			padding:20px 40px 30px 40px;
+		}
+		.box.addUser,.box.seo{
+			width:calc(50% - 15px);
+			height:280px;
+		}
+		.box.seo{
+			float:right;
+		}
+		.button{
+			border-radius: 3px;
+			outline: none;
+			border: 1px solid transparent;
+			min-width: 110px;
+			font-size: 12px;
+			display: inline-block;
+			height: 30px;
+		}
+		.redBtn{
+			background: #e20000;
+			color:#fff;
+			border:1px solid #ddd;
+		}
+		.redBtn:hover{
+			background: linear-gradient(to bottom,#FF4040,#e20000);
+		}
+		.whiteBtn{
+			background: #FFF;
+			border:1px solid #DDD;
+		}
+		.whiteBtn:hover{
+			background: linear-gradient(to bottom,#FFF,#DDD);
+		}
+		.input{
+			display: inline-block;
+			width: 100%;
+			box-sizing: border-box;
+			margin-top: 10px;
+			padding: 3px;
+			border: none;
+			border-bottom: 2px solid #DFDFDF;
+			outline: none;
+		}
+		.t-right{
+			text-align:right;
+		}
+		.selectBox{
+			padding:10px 15px;
+		}
+			.selectBox>div{
+				text-align:center;
+				padding:0;
+				margin:5px 0;
+			}
+				.selectBox span,.levelBox{
+					border-radius:15px;
+					padding:0 5px;
+					display:inline-block;
+					font-size:10px;
+					box-shadow:0 0 7px 1px rgba(120,120,120,.4);
+				}
+				.selectBox span.active,.levelBox{
+					background:#e20000;
+					color:#fff;
+				}
+			.addUserBtn{
+				background: #e20000;
+				color:#fff;
+			}
+			.addUserBtn:hover{
+				background: linear-gradient(to bottom,#FF4040,#e20000);
+			}
+		.users{
+			background:#fff;
+			margin-top:30px;
+			font-size:12px;
+			padding:20px 40px;
+		}
+		.userLists input{
+			border:none;
+			border-bottom:1px solid #DFDFDF;
+			outline:none;
+			width:100%;
+			max-width:90px;
+		}
+		.userLists button{
+			height:20px;
+			width:85px;
+			font-size:10px;
+			margin-right:10px;
+		}
+		.userLists tr td:last-child{
+			text-align:right;
+		}
+		.searchLists  tr td input{
+			max-width:100%;
+		}
+	/*模态框*/
+		.model{
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background:transparent;
+			display:none;
+			z-index:99999;
+		}
+		.modelBox{
+			box-shadow:2px 2px 10px 3px rgba(120,120,120,.5);
+			padding:20px;
+			width:450px;
+			margin:30px auto;
+			background:#fff;
+			border-radius:3px;
+			#border:1px solid #AAA;
+			overflow:hidden;
+		}
+			.iconInput{
+				display:block;
+				width:100%;
+				box-sizing:border-box;
+				margin-top:10px;
+				padding:3px;
+				border:none;
+				border-bottom:2px solid #DFDFDF;
+				outline:none;
+			}
+			.boxTitle{
+				margin:-20px -20px 0 -20px;
+				padding:15px 0;
+				text-align:center;
+				background:#e20000;
+				color:#fff;
+				font-size:17px;
+				font-family:Arial;
+				font-weight:bold;
+			}
+						.btnGroup{
+				text-align:center;
+				margin-top:20px;
+			}
+			.btnGroup button{
+				border-radius:3px;
+				outline:none;
+				border:1px solid transparent;
+				width:110px;
+				font-size:12px;
+				display:inline-block;
+				height:30px;
+			}
+			.btnGroup button.confirm{
+				background:#e20000;
+				color:#fff;
+				margin-right:15px;
+				
+			}
+			.btnGroup button.confirm:hover{
+				background:linear-gradient(to bottom,#FF4040,#e20000);
+			}
+			.btnGroup button.cancel{
+				background:#fff;
+				color:#AAA;
+				border-color:#AAA;
+				margin-left:15px;
+			}
+			.btnGroup button.cancel:hover{
+				background:linear-gradient(to bottom,#FFF,#DEDEDE);
+				color:#777;
+			}
+		
+	.userLists td{position:relative;}
+.selectLevelBox{
+	border:1px solid #ddd;
+	position:absolute;
+	top:100%S;
+	left:0;
+	list-style:none;
+	padding:0;
+	z-index:9999;
+}
+.selectLevelBox li{
+	background:#FFF;
+	width:40px;
+	text-align:center;
+}
+.selectLevelBox li:hover{
+	background:#ccc;
+}
+
+	/*搜索*/
+	.searchCell{
+		list-style:none;
+		padding:10px;
+	}
+		.searchCell .add{
+			text-align:center;
+			font-size:15px;
+		}
+		.searchCell>div{
+			border-radius:3px;
+			padding:10px;
+			position:relative;
+			height:40px;
+			box-shadow: 0 0 7px 1px rgba(120,120,120,.4);
+		}
+		.searchCell div.text,.searchCell div.control{
+			display:inline-block;
+		}
+		.searchCell div.text{
+			width:calc(100% - 70px);
+			vertical-align:top;
+			font-size:15px;
+		}
+		.searchCell div.control{
+			position:relative;
+			width:70px;
+			text-align:right;
+		}
+		.searchCell div.control button{
+			width:50%;
+			height:100%;
+			display:inline-block;
+			border:none;
+			background-size: 15px 15px;
+			background-position: 10px 2px;
+			background-repeat: no-repeat;
+			background-color: transparent;
+			border: none;
+			width: 30px;
+			height: 20px;
+			padding: 0;
+			vertical-align: bottom;
+			outline: none;
+		}
+		.searchCell .control .edit{
+				background-image:url("../main/img/edit.png");
+			}
+			.searchCell .control .delete{
+				background-image:url("../main/img/del.png");
+			}
+   </style>
+ </head>
+ <body>
+		<div class="addUser box col-xs-6">
+			<h4 class="listTitle col-xs-12"><span>新增用户</span></h4>
+			<div class="col-xs-6"><input id="addName" class="input" type="text" placeholder="用户名" /></div>
+			<div class="col-xs-6"><input id="addPwd" class="input" type="text"  placeholder="密码" /></div>
+			<div class="col-xs-6"><input id="addPhone" class="input" type="text"  placeholder="手机号" /></div>
+			<div class="col-xs-6"><input id="addEmail" class="input" type="text"  placeholder="邮箱"/></div>
+			<div class="selectBox col-xs-12" id="addLevel">
+				<div class="col-xs-2"><span val='1' case="power" >权限一</span></div>
+				<div class="col-xs-2"><span val='2' case="power" >权限二</span></div>
+				<div class="col-xs-2"><span val='3' case="power" >权限三</span></div>
+				<div class="col-xs-2"><span val='4' case="power" >权限四</span></div>
+				<div class="col-xs-2"><span val='5' case="power" >权限五</span></div>
+				<div class="col-xs-2"><span val='6' case="power" >权限六</span></div>
+				<div class="col-xs-2"><span val='7' case="power" >权限七</span></div>
+				<div class="col-xs-2"><span val='8' case="power" >权限八</span></div>
+				<div class="col-xs-2"><span val='9' case="power" >权限九</span></div>
+			</div>
+			<div class="t-right col-xs-12"><button class="button addUserBtn" case="addUser">添加 ADD</button></div>
+		</div>
+		<div class="seo box col-xs-6">
+			<h4 class="listTitle col-xs-12"><span>SEO</span></h4>
+			<div class="col-xs-12"><input id="keywords"  class="input" type="text" placeholder="关键字" /></div>
+			<div class="col-xs-12"><input  id="description" class="input" type="text" placeholder="网站描述"/></div>
+			<div class="col-xs-12"><br /></div>
+			<div class="col-xs-12"><br /></div>
+			<div class="col-xs-12"><br /></div>
+			<div class="col-xs-12"><br /></div>
+			<div class="t-right col-xs-12"><button class="button addUserBtn" case="editSeo">修改 EDIT</button></div>
+		</div>
+		<div class="users col-xs-12">
+			<h4 class="listTitle col-xs-12"><span>用户管理</span></h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<td>ID</td>
+						<td>帐户</td>
+						<td>昵称</td>
+						<td>手机</td>
+						<td>权限</td>
+						<td>创建时间</td>
+						<td>&emsp;</td>
+					</tr>
+				</thead>
+				<tbody id="userLists" class="userLists"></tbody><!-- 表格内容 -->
+			</table>
+		</div>
+		<div class="users col-xs-12">
+			<h4 class="listTitle col-xs-12"><span>搜索管理</span></h4>
+			<div class="listSearchBox" id="searchLists"></div>
+		</div>
+		<div class="model"><!-- 模态框 -->
+			<div class="modelBox" style="width:550px;">
+				<h6 class="boxTitle" id="title">添加网址</h6>
+				<input class="iconInput" type="" placeholder="搜索网站名称" id="search_name" />
+				<input class="iconInput" type="" placeholder="搜索网站地址" id="search_url" />
+				<div class="btnGroup">
+					<button class="confirm" case="iconConfirm">确定 CONFIRM</button>
+					<button class="cancel" case="iconCancel">取消 CANCEL</button>
+				</div>
+			</div>
+		</div>
+		<div id="hide" style="display:none">
+			<ul id="selectLevelBox" class="selectLevelBox">
+				<li val="1" case="">1</li>
+				<li val="2">2</li>
+				<li val="3">3</li>
+				<li val="4">4</li>
+				<li val="5">5</li>
+				<li val="6">6</li>
+				<li val="7">7</li>
+				<li val="8">8</li>
+				<li val="9">9</li>
+			</ul>
+		</div>
+	<script type="text/javascript" src="../main/frame/layer/layer.js"></script>
+	<script type="text/javascript">
+		$.get('../api/admin/getSeo.php',function(e){//获取seo
+			var json=JSON.parse(e);
+			if(json.result=="success"){
+				$("#keywords").val(json.msg[0].keywords);
+				$("#description").val(json.msg[0].description);
+			}
+			else{
+				layer.alert("获取失败！");
+			}
+		});
+		$.get("../api/admin/getUsers.php",function(e){//获取用户
+			var json=JSON.parse(e);
+			if(json.result=="success"){
+				var str="";
+				json.msg.map(function(E){
+					str+='<tr uid="'+E.user_id+'"><td>'+E.user_id+'</td>';
+					str+='<td>'+E.user_name+'</td>';
+					str+='<td><input glue="nick" type="text" value="'+E.user_nick+'"/></td>';
+					str+='<td><input glue="phone" type="text" value="'+E.user_phone+'"/></td>';
+					str+='<td><span class="levelBox" glue="level" val="'+E.user_level+'" case="selectLevel">'+E.user_level+'</span></td>';
+					str+='<td>'+E.user_time+'</td>';
+					str+='<td><button class="button  redBtn" case="editUser">修改 EDIT</button><button class=" button whiteBtn" case="deleteUser">删除 DELETE</button></td></tr>';
+				});
+				$("#userLists").html(str);
+			}
+			else{
+				layer.alert("获取失败！");
+			}
+		});
+
+		$.get("../api/other/getSelectLists.php",function(e){//获取搜索数据
+			var json=JSON.parse(e);
+			if(json.result=="success"){
+				var str='<li class="searchCell col-sm-4 col-md-2"><div class="add" case="addSearch">＋ 添加一级分类</div></li>';
+				json.msg.map(function(E){
+					str+='<li class="searchCell  col-sm-4 col-md-2" ><div sid="'+E.search_id+'" sname="'+E.search_name+'" surl="'+E.search_url+'">';
+					str+='<div class="text">'+E.search_name+'</h4></div>';
+					str+='<div class="control"><button class="edit" case="editSearch"></button><button class="delete" case="deleteSearch"></button></div></div></li>';
+				});
+				
+				$("#searchLists").html(str);
+			}
+			else{
+				layer.alert("获取失败！");
+			}
+		})
+	</script>
+	<script type="text/javascript">
+		event("power",function(e){
+			$(e.target).addClass("active").parents().siblings().children("[val]").removeClass("active");
+		});
+		event("addUser",function(e){
+			var level=$(e.target).attr("val");
+			$.post('../api/admin/add.php',{
+				name:$("#addName").val(),
+				pwd:$("#addPwd").val(),
+				phone:$("#addPhone").val(),
+				email:$("#addEmail").val(),
+				level:$("#addLevel .active").attr("val")
+			},function(e){
+				var json=JSON.parse(e);
+				if(json.result=="success"){
+					layer.alert("添加成功！");
+				}
+				else{
+					layer.alert("添加失败！");
+				}
+			})
+		});
+		event("editSeo",function(){
+			$.post('../api/admin/editSeo.php',{
+				keywords:$("#keywords").val(),
+				description:$("#description").val()
+			},function(e){
+				var json=JSON.parse(e);
+				if(json.result=="success"){
+					layer.alert("修改成功！");
+				}
+				else{
+					layer.alert("修改失败！");
+				}
+			})			
+		});
+		event("selectLevel",function(e){
+			$(e.target).parent().append($("#selectLevelBox"))
+		});
+		$("#selectLevelBox li").click(function(e){
+			$("#selectLevelBox").prev().attr('val',$(e.target).attr("val")).html($(e.target).html());
+			$("#hide").append($("#selectLevelBox"));
+		})
+		event("editUser",function(e){
+			$.post('../api/admin/editUser.php',{
+				uid:$(e.target).parents("[uid]").attr("uid"),
+				nick:$(e.target).parents("[uid]").find("[glue='nick']").val(),
+				phone:$(e.target).parents("[uid]").find("[glue='phone']").val(),
+				level:$(e.target).parents("[uid]").find("[glue='level']").attr("val"),
+			},function(e){
+				var json=JSON.parse(e);
+				if(json.result=="success"){
+					layer.alert("修改成功！");
+				}
+				else{
+					layer.alert("修改失败！"+json.msg);
+				}
+			})			
+		})
+		event("deleteUser",function(e){
+			$.post('../api/admin/deleteUser.php',{
+				uid:$(e.target).parents("[uid]").attr("uid")
+			},function(e){
+				var json=JSON.parse(e);
+				if(json.result=="success"){
+					window.location.reload();
+				}
+				else{
+					layer.alert("修改失败！"+json.msg);
+				}
+			})			
+		});
+		event("addSearch",function(e){
+			
+			$("#title").html("添加搜索项").attr("glue","addSearch");
+			$('.model').show();
+		})
+		event("editSearch",function(e){
+			var el=$(e.target).parents('[sid]');
+			$('.model').show();
+			$('#search_name').val(el.attr("sname"));
+			$('#search_url').val(el.attr("surl"));
+			$("#title").html("修改搜索项").attr({"sid":el.attr("sid"),glue:"editSearch"});
+		});
+		event("deleteSearch",function(e){
+			layer.confirm('确定删除此搜索项？', {
+			  btn: ['确定','取消'] //按钮
+			}, function(){
+				var sid=$(e.target).parents('[sid]').attr("sid");
+				$.post("../api/other/deleteSearch.php",{sid:sid},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						window.location.reload();
+					}
+					else{
+						layer.alert("操作失败:"+json.msg);
+					}	
+				});
+			});
+			
+		});
+		event("iconConfirm",function(){
+			if($('#title').attr('glue')=="addSearch"){
+				$.post('../api/other/addSearch.php',{
+					name:$("#search_name").val(),
+					url:$("#search_url").val()
+				},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						window.location.reload();
+						layer.alert("添加成功！");
+					}
+					else{
+						layer.alert("添加失败！"+json.msg);
+					}
+				})
+			}
+			else if($('#title').attr('glue')=="editSearch"){
+				$.post('../api/other/editSearch.php',{
+					sid:$("#title").attr("sid"),
+					name:$("#search_name").val(),
+					url:$("#search_url").val()
+				},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						window.location.reload();
+						layer.alert("修改成功！");
+					}
+					else{
+						layer.alert("修改失败！"+json.msg);
+					}
+				})			
+			}
+			
+		})
+		event("iconCancel",function(e){//取消按钮
+			$(".model").hide();
+			$(".model input").val("");
+		});
+	</script>
+ </body>
+</html>

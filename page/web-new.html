@@ -1,0 +1,689 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>用户设置</title>
+  <link href="../main/frame/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../main/css/main.css" />
+  <link rel="stylesheet" href="../main/frame/caomei/style.css" />
+   <script src="../main/js/jquery-2.0.0.min.js"></script>
+   <script src="../main/frame/bootstrap/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="../main/js/reunite0.0.3.js"></script>
+   <style type="text/css">
+	
+	body{
+		font-family:"microsoft YaHei";
+	}
+	*{
+		cursor:default;
+		
+	}
+	/*一级分类标题*/
+	.listTitle{
+		font-size:17px;
+		font-weight:bold;
+		border-bottom:3px solid #D9D9D9;
+		padding:5px 0; 
+	}
+
+		.listTitle span{
+			border-bottom:3px solid #e20000;
+			padding:3px 10px;
+		}
+	.selectBox{
+		padding:30px 40px 0 40px;
+		overflow:hidden;
+	}
+		.selectBox .listSelect{
+			box-sizing:border-box;
+			padding:0 4px;
+			border-bottom:2px solid #eee;
+		}
+			.selectBox .listSelect span{
+				display:inline-block;
+				font-weight:bold;
+				height:40px;
+				padding:10px 0;
+				position:relative;
+				margin-left:-5px;
+				margin-right:20px;
+				cursor:pointer;
+				margin-bottom:-2px;
+			}
+			.selectBox .listSelect span.active{
+				background:#fff;
+				z-index:1000;
+				border-bottom:2px solid #333;
+			}
+			.selectBox .listSelect span:hover{
+				background:#fff;
+			}
+				.selectBox .listSelect span>i{
+					margin-right:5px;
+				}
+		.selectBox .groupSelect{
+			padding-top:10px;
+			padding-bottom:10px;
+		}
+		.selectBox .groupSelect>div{
+			text-align:center;
+			padding:3px;
+		}
+			.selectBox .groupSelect>div>span{
+				border-radius:20px;
+				padding:3px 10px;
+				margin-top:5px;
+				display:inline-block;
+				box-shadow:0 0 10px 1px rgba(120,120,120,.4);
+				overflow:hidden;
+				white-space:nowrap;
+			}
+			.selectBox .groupSelect>div>span.active{
+				background:#e20000;
+				color:#fff;
+			}
+			.selectBox .groupSelect>div>span>i{
+				margin-right:5px;
+			}
+		/*盒子*/
+
+			.box{
+				position:relative;
+				list-style:none;
+				padding:25px 25px;
+			}
+	.cell{
+		margin-bottom:20px;
+		box-sizing:border-box;
+		text-align:left;
+		height:68px;
+	}
+		.cell>div{
+			box-shadow:0 0 7px 1px rgba(120,120,120,.4);
+			border-radius:4px;
+			font-size:15px;
+			font-weight:bold;
+			padding:10px 20px;
+			box-sizing:border-box;
+			position:relative;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			height:68px;
+		}
+		.cell>div:hover{
+			background:#efefef;
+		}
+	.cell .add{
+		line-height:48px;
+		text-align:center;
+		height:68px;
+	}
+		.cell .logo{
+			width:40px;
+			height:40px;
+			background:#30333C;
+			display:inline-block;
+			vertical-align:top;
+			border-radius:50%;
+			padding:7px;
+			box-sizing:border-box;
+			overflow:hidden;
+			position:relative;
+		}
+		.cell .logo i{
+			display:inline-block;
+			padding:1px;
+			font-size:25px;
+			color:#FFF;
+		}
+		.cell .logo img{
+			position:absolute;
+			top:0;
+			right:0;
+			left:0;
+			bottom:0;
+			width:100%;
+			height:100%;
+		}
+		.cell .text{
+			display:inline-block;
+			vertical-align:top;
+			padding-left:10px;
+			width:calc(100% - 50px);
+		}
+			.cell .text h4{
+				margin:5px 0 0 0;
+				font-size:15px;
+				width:100%;
+				display:block;
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+			.cell .text p{
+				font-size:12px;
+				width:100%;
+				font-weight:normal;
+				display:block;	
+				overflow: hidden;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+			}
+		.cell .control{
+			display:inline-block;
+			vertical-align:bottom;
+			position:absolute;
+			right:5px;
+			bottom:5px;
+		}
+			.cell .control button{
+				background-size:20px 20px;
+				background-position:5px 2px;
+				background-repeat:no-repeat;
+				background-color:transparent;
+				border:none;
+				width:30px;
+				height:25px;
+				padding:0;
+				vertical-align:bottom;
+				outline:none;
+			}
+			.cell .control .edit{
+				background-image:url("../main/img/edit.png");
+			}
+			.cell .control .delete{
+				background-image:url("../main/img/del.png");
+			}
+	/*模态框*/
+		.model{
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background:transparent;
+			display:none;
+			z-index:99999;
+		}
+		.modelBox{
+			box-shadow:2px 2px 10px 3px rgba(120,120,120,.5);
+			padding:20px;
+			width:450px;
+			margin:30px auto;
+			background:#fff;
+			border-radius:3px;
+			#border:1px solid #AAA;
+			overflow:hidden;
+		}
+			.boxTitle{
+				margin:-20px -20px 0 -20px;
+				padding:15px 0;
+				text-align:center;
+				background:#e20000;
+				color:#fff;
+				font-size:17px;
+				font-weight:bold;
+			}
+			/*分类设置↓*/
+			.listSelectBox{
+				padding-top:10px;
+				display:none;
+			}
+			.listSelectBox>span{
+				border:2px solid transparent;
+				border-radius:3px;
+				padding:2px 10px;
+				margin:10px 13px 0 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				display:inline-block;
+				width:128px;
+				box-shadow:0 0 7px 2px rgba(120,120,120,.4);
+			}
+			.listSelectBox>span>i{
+				margin-right:5px;
+			}
+			.listSelectBox>span:nth-child(3),.listSelectBox>span:nth-child(7){
+				margin-right:0;
+			}
+			.listSelectBox>span.active{
+				background:#e20000;
+				color:#fff;
+			}
+			.iconInput{
+				display:block;
+				width:100%;
+				box-sizing:border-box;
+				margin-top:10px;
+				padding:3px;
+				border:none;
+				border-bottom:2px solid #DFDFDF;
+				outline:none;
+			}
+			.iconTitle{
+				font-size:14px;
+				font-weight:bold;
+				margin-top:20px;
+				text-indent:3px;
+			}
+			.iconSearch{
+				vertical-align:middle;
+				margin-bottom:10px;
+			}
+				.iconSearch span{
+					border:1px solid #AAAAAA;
+					display:inline-block;
+					height:40px;
+					width:40px;
+					vertical-align:bottom;
+					font-size:37px;
+					padding-left:1px;
+					border-radius:3px;
+					text-align:center;
+				}
+				.iconSearch input{
+					vertical-align:bottom;
+					margin-left:10px;
+					text-indent:5px;
+					outline:none;
+				}
+			.iconBox{
+				height:100px;
+				overflow:auto;
+				padding:1px 0 0 1px;
+				margin-top:15px;
+			}
+			.iconBox>i{
+				display:inline-block;
+				border:1px solid #aaa;
+				width:30px;
+				padding:8px;
+				height:30px;
+				margin:-1px 0 0 -1px;
+			}
+			.iconBox>i.active{
+				background:#D8D8D7;
+			}
+			/*分类设置↑*/
+			/*网址导航设置↓*/
+			.boxListSelect{
+				background:#EBEBEB;
+				margin:0 -20px 0 -20px;
+				padding:0 20px;
+			}
+				.boxListSelect span{
+					padding:10px;
+					display:inline-block;
+					
+				}
+				.boxListSelect span.active{
+					background:#fff;
+				}
+					.boxListSelect span>i{
+						margin-right:5px;
+					}
+				.boxListSelect span:hover{
+					background:#fff;
+				}
+			.boxGroupSelect{
+				padding:10px 0;
+			}
+				.boxGroupSelect>div{
+					padding:0 2px;
+					text-align:center;
+				}
+				.boxGroupSelect>div>span{
+					border-radius: 20px;
+					padding: 4px 10px 2px 10px;
+					margin-top: 5px;
+					display: inline-block;
+					box-shadow: 0 0 10px 1px rgba(120,120,120,.4);
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow:ellipsis;
+					width:75px;
+					font-size:12px;
+					line-height:12px;
+				}
+				.boxGroupSelect>div>span.active{
+					background:#e20000;
+					color:#fff;
+				}
+			.boxLogo{
+				text-align:center;
+				padding:20px 0;
+			}
+				.boxLogo .boxIcon,.boxLogo .boxUpload{
+					width:70px;
+					height:70px;
+					background:#EEEEEE;
+					display:inline-block;
+					line-height:70px;
+					vertical-align:top;
+				}
+				.boxLogo .boxIcon{
+					border:2px solid #ddd;
+					margin-right:20px;
+				}
+				.boxLogo .boxUpload{
+					border:2px dashed #ddd;
+					margin-left:20px;
+					overflow:hidden;
+					position:relative;
+				}
+					.boxLogo  .boxUpload input{
+						position:absolute;
+						top:-100px;
+						left:-200px;
+						width:500px;
+						height:500px;
+					}
+			
+			/*网址导航设置↑*/
+			.btnGroup{
+				text-align:center;
+				margin-top:20px;
+			}
+			.btnGroup button{
+				border-radius:3px;
+				outline:none;
+				border:1px solid transparent;
+				width:110px;
+				font-size:12px;
+				display:inline-block;
+				height:30px;
+			}
+			.btnGroup button.confirm{
+				background:#e20000;
+				color:#fff;
+				margin-right:15px;
+				
+			}
+			.btnGroup button.confirm:hover{
+				background:linear-gradient(to bottom,#FF4040,#e20000);
+			}
+			.btnGroup button.cancel{
+				background:#fff;
+				color:#AAA;
+				border-color:#AAA;
+				margin-left:15px;
+			}
+			.btnGroup button.cancel:hover{
+				background:linear-gradient(to bottom,#FFF,#DEDEDE);
+				color:#777;
+			}
+   </style>
+ </head>
+ <body>
+		<div class="selectBox col-xs-12">
+			<div class="listSelect col-xs-12 col-sm-12" id="listSelect"></div><!-- 分类选择 -->
+			<div class="groupSelect col-xs-12  col-sm-8" id="groupSelect"></div><!-- 分组选择 -->
+		</div>
+		<ul class="box col-xs-12" id="webBox"></ul><!-- 网址导航列表 -->
+		
+		<div class="model"><!-- 模态框 -->
+			<div class="modelBox" style="width:550px;">
+				<h6 class="boxTitle" id="title">添加网址</h6>
+				<div class="boxListSelect" id="boxListSelect"></div><!-- 分类选择列表 -->
+				<div class="boxGroupSelect col-xs-12" id="boxGroupSelect"></div><!-- 分组选择列表 -->
+				<input class="iconInput" type="" placeholder="网站名称" id="name" />
+				<input class="iconInput" type="" placeholder="网站地址" id="address" />
+				<input class="iconInput" type="" placeholder="网站描述" id="msg" />
+				<input class="iconInput" type="" placeholder="网站排序" id="sort" />
+				<div class="boxLogo">
+					<img class="boxIcon" src="" alt="LOGO" data="" id="icon" glue="icon"/>
+					<div class="boxUpload"case="upload">添加logo<input type="file" id="file" case="fileIcon" glue="file"></div>
+				</div>
+				<div class="btnGroup">
+					<button class="confirm" case="iconConfirm">确定 CONFIRM</button>
+					<button class="cancel" case="iconCancel">取消 CANCEL</button>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="../main/frame/layer/layer.js"></script>
+	<script type="text/javascript">
+
+		$.get('../api/list/getAll.php',function(e){//获取所有分类
+			var json=JSON.parse(e);
+			if(json.result='success'){
+				var str='';
+				var str2='';
+				json.msg.map(function(e,i){
+					if(i==0){
+						getGroup(e.list_id);
+					}
+					str+='<span lid="'+e.list_id+'"case="listSelect"'+(i==0?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+
+					str2+='<span lid="'+e.list_id+'"case="boxListSelect"'+(i==0?'class="active"':"")+'><i class="'+e.list_icon+'"></i>'+e.list_name+'</span>';
+				});
+				$('#listSelect').html(str);
+				$('#boxListSelect').html(str2);
+			}
+			else{
+				layer.alert("获取失败："+json.msg);
+			}
+		});
+
+		function getGroup(lid){//获取相应分类下分组数据
+			$.post('../api/group/getByLid.php',{lid:lid},function(e){
+				var json=JSON.parse(e);
+				if(json.result=='success'){
+					var str='';
+					var str2='';
+					json.msg.map(function(e,i){
+						if(i==0){
+							getWeb(e.group_id);
+						}
+						str+='<div class="col-xs-6 col-sm-4 col-md-2"><span gid="'+e.group_id+'" '+(i==0?'class="active"':"")+ ' case="groupSelect"><i class="'+e.group_icon+'"></i>'+e.group_name+'</span></div>';
+
+						str2+='<div class="col-xs-2"><span gid="'+e.group_id+'" '+(i==0?'class="active"':"")+ ' case="boxGroupSelect">'+e.group_name+'</span></div>';
+					});
+					$('#groupSelect').html(str);
+					$('#boxGroupSelect').html(str2);
+				}
+				else{
+					layer.alert("获取失败："+json.msg);
+				}
+			});
+		}
+		function boxGetGroup(lid){//模态框获取相应分类下分组数据
+			$.post('../api/group/getByLid.php',{lid:lid},function(e){
+				var json=JSON.parse(e);
+				if(json.result=='success'){
+					var str='';
+					json.msg.map(function(e,i){
+						str+='<div class="col-xs-2"><span gid="'+e.group_id+'" '+(i==0?'class="active"':"")+ ' case="boxGroupSelect">'+e.group_name+'</span></div>';
+					});
+					$('#boxGroupSelect').html(str);
+				}
+				else{
+					layer.alert("获取失败："+json.msg);
+				}
+			});		
+		}
+		function getWeb(gid){//获取相应分组下网址导航数据
+			$.post('../api/web/getAll.php',{gid:gid},function(e){
+				var json=JSON.parse(e);
+				if(json.result=='success'){
+					var str='<li class="cell col-sm-6 col-md-3"><div class="add" case="addWeb">＋ 添加网址导航</div></li>';
+					json.msg.map(function(e,i){
+						str+='<li class="cell  col-sm-6 col-md-3"><div wid="'+e.web_id+'"><div class="logo"><img src="'+e.web_icon+'"/></div><div class="text"><h4 class="title">'+e.web_name+'</h4><p class="type">'+e.web_msg+'</p></div><div class="control"><button class="edit" case="editWeb"></button><button class="delete" case="deleWeb"></button></div></div></li>';
+					});
+					$('#webBox').html(str);
+				}
+				else{
+					layer.alert("获取失败："+json.msg);
+				}
+			});
+		}
+
+	</script>
+	<script type="text/javascript">
+		event("listSelect",function(e){//分类选择
+			$(e.target).addClass("active").siblings().removeClass("active");
+			var lid=$(e.target).attr("lid");
+			$("#boxListSelect [lid='"+lid+"']").addClass("active").siblings().removeClass("active");
+			getGroup(lid);
+		});
+		event("groupSelect",function(e){//分组选择
+			$(e.target).addClass("active").parent().siblings().children("[case]").removeClass("active");
+			var gid=$(e.target).attr("gid");
+			$("#boxGroupSelect [gid='"+gid+"']").addClass("active").parent().siblings().children("[case]").removeClass("active");
+			getWeb(gid);
+		});
+		event("addWeb",function(){//添加网址导航按钮
+			$("#title").html("添加网址导航").attr("glue","addWeb");
+			$(".model").show();
+		});
+		event("editWeb",function(e){//添加网址导航按钮
+			$("#title").html("修改网址导航").attr("glue","editWeb");
+			var wid=$(e.target).parents("[wid]").attr("wid");
+			$('#title').attr("wid",wid);
+			$.post("../api/web/get.php",{wid:wid},function(E){
+				var json=JSON.parse(E);
+				if(json.result=="success"){
+					var data=json.msg[0];
+					$("#name").val(data.web_name);
+					$("#address").val(data.web_url);
+					$("#msg").val(data.web_msg);
+					$("#sort").val(data.web_sort);
+					$("#icon").attr({"src":data.web_icon,"data":data.web_icon});
+				}
+				else{
+					layer.alert("获取失败："+json.msg);
+				}
+			})
+			$(".model").show();
+		});
+
+		/*模态框事件*/
+		function clean(){//清除模态框数据
+			$("#name").val("");
+			$("#address").val("");
+			$("#msg").val("");
+			$("#sort").val("");
+			$("#icon").attr("src",null);
+		}
+		function upload(file,url,fn){//提交图片
+			var formData = new FormData();
+			var file = document.getElementById(file);
+			formData.append("file",file.files[0]);
+			formData.append("name",file.value);
+			$.ajax({//上传图片
+				url : url, 
+				type : 'POST', 
+				data : formData, 
+				processData : false,
+				contentType : false,
+				beforeSend:function(){
+					console.log("正在进行，请稍候");
+				},
+				success : function(responseStr){
+					if(fn){fn(responseStr)};
+				}, 
+				error : function(responseStr) { 
+					
+				} 
+			});	
+		}
+		event("boxListSelect",function(e){//模态框内分类选择
+			$(e.target).addClass("active").siblings().removeClass("active");
+			var lid=$(e.target).attr("lid");
+			boxGetGroup(lid);
+		});
+		event("boxGroupSelect",function(e){//模态框内分组选择
+			$(e.target).addClass("active").parent().siblings().children("[case]").removeClass("active");
+		});
+		event("iconCancel",function(){
+			$(".model").hide();
+			clean();
+		});
+		event("deleWeb",function(e){
+			layer.confirm('删除此网址导航？', {
+				btn: ['确定','取消'] //按钮
+			}, function(){
+				var wid=$(e.target).parents("[wid]").attr('wid');
+				$.post('../api/web/delete.php',{wid:wid},function(E){
+					var json=JSON.parse(E);
+					if(json.result=="success"){
+						window.location.reload();
+					}
+					else{
+						layer.alert("修改失败!："+json.msg);
+					}	
+				})	
+			});
+		})
+		event("fileIcon",function(){
+			showImg("file","icon");
+		},'change');
+		event("iconConfirm",function(){
+			var glue=$("#title").attr("glue");
+
+			if(!$("#boxGroupSelect .active").attr("gid")){
+				layer.alert("请选择二级分类！");
+				return;
+			}
+			var data={
+				name:$("#name").val(),
+				url:$("#address").val(),
+				msg:$("#msg").val(),
+				sort:$("#sort").val(),
+				gid:$("#boxGroupSelect .active").attr("gid"),
+				icon:$("#icon").attr("src"),
+			}
+			if(glue=="addWeb"){
+				url="../api/web/add.php";
+			}
+			else if(glue=="editWeb"){
+				url="../api/web/edit.php";
+				data.wid=$("#title").attr("wid");
+			}
+			
+			function web(url,data){
+				$.post(url,data,function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						layer.confirm('修改成功！', {
+							btn: ['确定'] //按钮
+						}, function(){
+							window.location.reload();
+						});
+					}
+					else{
+						layer.alert("修改失败!："+json.msg);
+					}
+				})
+			}
+			if($('#icon').attr('src')!=$('#icon').attr('data')){//图片改变了
+				upload('file','../api/upload.php',function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+						data.icon=json.msg;
+						web(url,data);
+					}
+					else{
+						layer.alert("修改失败："+json.msg);
+					}
+				});
+
+				$.post("../api/deleteImg.php",{icon:$('#icon').attr('data').split("/").pop()},function(e){
+					var json=JSON.parse(e);
+					if(json.result=="success"){
+					}
+					else{
+						layer.alert("删除旧图片失败："+json.msg);
+					}
+				});
+			}
+			else{//图片没变
+				web(url,data);
+			}
+			
+		});
+		
+	</script>
+ </body>
+</html>

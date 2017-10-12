@@ -1,0 +1,50 @@
+CREATE DATABASE nav //创建名为nav的数据库
+
+CREATE TABLE user (
+	user_id INT UNSIGNED AUTO_INCREMENT,
+	user_name CHAR(15) NOT NULL unique,
+ 	user_phone CHAR(11) NOT NULL unique,
+ 	user_psd CHAR(15) NOT NULL,
+	user_nick VARCHAR(20),
+	user_icon VARCHAR(100),
+	user_time timestamp not null default current_timestamp,
+ 	PRIMARY KEY (user_id)
+	
+)default charset=utf8;//创建名为user的数据表
+
+
+CREATE TABLE list (
+	list_id INT UNSIGNED AUTO_INCREMENT,
+	list_name VARCHAR(20),                   
+ 	list_sort INT,
+ 	list_uid INT  NOT NULL,
+ 	PRIMARY KEY (list_id)
+	
+)default charset=utf8;//创建名为list的数据表
+
+
+
+CREATE TABLE groups (
+	group_id INT UNSIGNED AUTO_INCREMENT,
+	group_name VARCHAR(20),                   
+ 	group_sort INT,
+	group_lid INT,
+ 	group_uid INT  NOT NULL,
+ 	PRIMARY KEY (group_id)
+	
+)default charset=utf8;//创建名为list的数据表
+
+CREATE TABLE web (
+	web_id INT UNSIGNED AUTO_INCREMENT,
+	web_name VARCHAR(20),
+ 	web_url VARCHAR(100) NOT NULL,
+	web_msg VARCHAR(20),
+	web_sort INT,
+	web_gid INT,
+	web_uid INT  NOT NULL,
+	web_icon VARCHAR(100),
+ 	PRIMARY KEY (web_id)
+	
+)default charset=utf8;//创建名为web的数据表
+
+http://127.0.0.1/new/fn/list.php?nav=addWeb&name=%E7%99%BE%E5%BA%A6&url=https://www.baidu.com&icon=no&sort=99&lid=1&msg=zheshibeizhu

@@ -1,0 +1,617 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <title>导航设置</title>
+  <link href="../main/frame/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../main/css/main.css" />
+  <link rel="stylesheet" href="../main/frame/caomei/style.css" />
+   <script src="../main/js/jquery-2.0.0.min.js"></script>
+   <script src="../main/frame/bootstrap/js/bootstrap.min.js"></script>
+   <script type="text/javascript" src="../main/js/reunite0.0.3.js"></script>
+   <style type="text/css">
+	body{
+		font-family:"microsoft YaHei";
+	}
+	*{
+		cursor:default;
+	}
+	/*一级分类标题*/
+	.listTitle{
+		font-size:17px;
+		font-weight:bold;
+		border-bottom:3px solid #D9D9D9;
+		padding:5px 0; 
+		margin-bottom:30px;
+	}
+
+		.listTitle span{
+			border-bottom:3px solid #e20000;
+			padding:5px 10px;
+		}
+	.boxLeft{
+		padding:30px 20px 0 30px;
+		box-sizing:border-box;
+	}
+		.userIcon{
+			width:100px;
+			height:100px;
+			border-radius:50%;
+			margin:10px auto;
+			position:relative;
+			overflow:hidden;
+			margin-bottom:37px;
+			box-shadow: 0 0 7px 1px rgba(120,120,120,.4);
+		}
+			.userIcon>img{
+				position:absolute;
+				width:100%;
+				height:100%;
+				z-index:99;
+			}
+			.userIcon>input{
+				position:absolute;
+				width:300px;
+				height:400px;
+				top:0;
+				left:-300px;
+				cursor:pointer;
+				z-index:999;
+			}
+			.userIcon>input:before{
+				content:"点击修改";
+				color:block;
+				position:absolute;
+				top:0;
+				right:0;
+				display:block;
+				width:100px;
+				height:100px;
+				background:rgba(200,200,200,.8);
+				line-height:100px;
+				text-align:center;
+				font-size:15px;
+			}
+			.userIcon:hover>input{
+				left:-200px;
+			}
+		.other{
+			width:100%;
+			height:480px;
+			#border:1px solid #D9D9D9;
+			box-shadow: 0 0 7px 1px rgba(120,120,120,.4);
+		}
+	.boxRight{
+		padding:30px 30px 0 20px;
+		box-sizing:border-box;
+	}
+	.row{
+		box-shadow:0 0 7px 1px rgba(120,120,120,.4);
+		padding:5px;
+		margin-bottom:20px;
+		padding-bottom:20px;
+	}
+		.row>div{
+			padding:10px 15px;
+		}
+
+		.row .webIcon{
+			width:30px;
+			height:30px;
+			background:#D9D9D9;
+			display:inline-block;
+			border-radius:3px;
+			margin-left:10px;
+			vertical-align:bottom;
+		}
+		.row .editBtn{
+			border-radius:3px;
+			outline:none;
+			border:1px solid transparent;
+			width:110px;
+			font-size:12px;
+			display:inline-block;
+			height:30px;
+			background:#e20000;
+			color:#fff;	
+			margin-right:10px;
+		}
+			.row .editBtn:hover{
+				background:linear-gradient(to bottom,#FF4040,#e20000);
+			}
+		.row .boxInput{
+			display:inline-block;
+			width:calc(100% - 50px);
+			box-sizing:border-box;
+			margin-top:10px;
+			padding:3px;
+			border:none;
+			border-bottom:2px solid #DFDFDF;
+			outline:none;
+			margin-left:10px;
+		}
+		.row .boxOpen{
+			position:absolute;
+			right:25px;
+			top:0;
+			font-size:10px;
+			color:#e20000;
+			cursor:pointer;
+		}
+	/*模态框*/
+		.model{
+			position:fixed;
+			top:0;
+			left:0;
+			right:0;
+			bottom:0;
+			background:transparent;
+			display:none;
+		}
+		.modelBox{
+			box-shadow:2px 2px 10px 3px rgba(120,120,120,.5);
+			padding:20px;
+			width:450px;
+			margin:30px auto;
+			background:#fff;
+			border-radius:3px;
+			#border:1px solid #AAA;
+			overflow:hidden;
+		}
+			.editBox{
+				display:none;
+			}
+			.boxTitle{
+				margin:-20px -20px 0 -20px;
+				padding:15px 0;
+				text-align:center;
+				background:#e20000;
+				color:#fff;
+				font-size:17px;
+				font-family:Arial;
+				font-weight:bold;
+			}
+			.modelBoxCell{
+			
+				display:inline-block;
+				width:49%;
+				box-sizing:border-box;
+			}
+			.listSelectBox{
+				padding-top:10px;
+				display:none;
+			}
+			.listSelectBox>span{
+				border:2px solid transparent;
+				border-radius:3px;
+				padding:2px 10px;
+				margin:10px 13px 0 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				display:inline-block;
+				width:128px;
+				box-shadow:0 0 7px 2px rgba(120,120,120,.4);
+			}
+			.listSelectBox>span>i{
+				margin-right:5px;
+			}
+			.listSelectBox>span:nth-child(3),.listSelectBox>span:nth-child(7){
+				margin-right:0;
+			}
+			.listSelectBox>span.active{
+				background:#e20000;
+				color:#fff;
+			}
+			.iconInput{
+				display:block;
+				width:100%;
+				box-sizing:border-box;
+				margin-top:10px;
+				padding:3px;
+				border:none;
+				border-bottom:2px solid #DFDFDF;
+				outline:none;
+			}
+			.iconTitle{
+				font-size:14px;
+				font-family:'Bookman Old Style',Tahoma,Gadget, sans-serif;
+				font-weight:bold;
+				margin-top:20px;
+				text-indent:3px;
+			}
+			.iconSearch{
+				vertical-align:middle;
+				margin-bottom:10px;
+			}
+				.iconSearch span{
+					border:1px solid #AAAAAA;
+					display:inline-block;
+					height:40px;
+					width:40px;
+					vertical-align:bottom;
+					font-size:37px;
+					padding-left:1px;
+					border-radius:3px;
+					text-align:center;
+				}
+				.iconSearch input{
+					vertical-align:bottom;
+					margin-left:10px;
+					text-indent:5px;
+					outline:none;
+				}
+			.iconBox{
+				height:100px;
+				overflow:auto;
+				padding:1px 0 0 1px;
+				margin-top:15px;
+			}
+			.iconBox>i{
+				display:inline-block;
+				border:1px solid #aaa;
+				width:30px;
+				padding:8px;
+				height:30px;
+				margin:-1px 0 0 -1px;
+			}
+			.iconBox>i.active{
+				background:#D8D8D7;
+			}
+			.btnGroup{
+				text-align:center;
+				margin-top:20px;
+			}
+			.btnGroup button{
+				border-radius:3px;
+				outline:none;
+				border:1px solid transparent;
+				width:110px;
+				font-size:12px;
+				display:inline-block;
+				height:30px;
+			}
+			.btnGroup button.confirm{
+				background:#e20000;
+				color:#fff;
+				margin-right:15px;
+			}
+			.btnGroup button.confirm:hover{
+				background:linear-gradient(to bottom,#FF4040,#e20000);
+			}
+			.btnGroup button.cancel{
+				background:#fff;
+				color:#AAA;
+				border-color:#AAA;
+				margin-left:15px;
+			}
+			.btnGroup button.cancel:hover{
+				background:linear-gradient(to bottom,#FFF,#DEDEDE);
+				color:#777;
+			}
+
+					.boxLogo{
+				text-align:center;
+				padding:20px 0;
+			}
+				.boxLogo .boxIcon,.boxLogo .boxUpload{
+					width:100px;
+					height:100px;
+					background:#EEEEEE;
+					display:inline-block;
+					line-height:100px;
+					vertical-align:top;
+				}
+				.boxLogo .boxIcon{
+					border:2px solid #ddd;
+					margin-right:20px;
+				}
+				.boxLogo .boxUpload{
+					border:2px dashed #ddd;
+					margin-left:20px;
+					overflow:hidden;
+					position:relative;
+				}
+					.boxLogo  .boxUpload input{
+						position:absolute;
+						top:-100px;
+						left:-200px;
+						width:500px;
+						height:500px;
+					}
+			
+   </style>
+ </head>
+ <body>
+		<div class=" boxLeft col-xs-3 ">
+			<div class="userIcon">
+				<img  id="userIcon"src="" glue="userIcon" />
+				<input type="file" id="userFile" case="userFile" glue="userFile"/>
+			</div>
+			<div class="other">
+				<iframe src="../main/img/ad.svg" frameborder="0" style="width:100%;height:100%"></iframe>
+			</div>
+		</div>
+		<div class="boxRight col-xs-9">
+			<div class="row col-xs-12">
+				<div class="col-xs-12"><br /></div>
+				<div class="col-xs-6">
+					图标
+					<img class="webIcon" id="showPageIcon" src="" alt="" />
+					<span class="boxOpen"  case="showEditBox" glue="editPageIcon">修改图标</span>
+				</div>
+				<div class="col-xs-6">
+					帐号
+					<input class="boxInput" id="showName" disabled type="text"  placeholder="帐号"/>
+				</div>
+				<div class="col-xs-6">
+					标题
+					<input class="boxInput" id="editTitle" disabled type="text"  placeholder="网址标题"/>
+					<span class="boxOpen"  case="showEditBox" glue="editTitle">修改标题</span>
+				</div>
+				<div class="col-xs-6">
+					手机
+					<input class="boxInput" id="showPhone" disabled type="text"  placeholder="手机"/>
+					<span class="boxOpen"  case="showEditBox"  glue="editPhone">绑定手机</span>
+				</div>
+				<div class="col-xs-6">
+					邮箱
+					<input class="boxInput" id="showEmail" disabled type="text"  placeholder="邮箱"/>
+					<span class="boxOpen"  case="showEditBox"  glue="editEmail">绑定邮箱</span>
+				</div>
+				<div class="col-xs-6">
+					密码
+					<input class="boxInput" id="showPwd" disabled type="password"  placeholder="密码"/>
+					<span class="boxOpen"  case="showEditBox" glue="editPwd">修改密码</span>
+				</div>
+			</div>
+			<div class="row col-xs-12">
+				<div class="col-xs-6">昵称<input class="boxInput" id="editNick" type="text"  placeholder="昵称"/></div>
+				<div class="col-xs-6">性别<input class="boxInput" id="editSex" type="text"  placeholder="性别"/></div>
+				<div class="col-xs-6">生日<input class="boxInput" id="editBirthday" type="text"  placeholder="生日"/></div>
+				<div class="col-xs-6">地区<input class="boxInput" id="editArea" type="text"  placeholder="地区" /></div>
+				<div class="col-xs-6">学历<input class="boxInput" id="editDegree" type="text"  placeholder="学历"/></div>
+				<div class="col-xs-6">学校<input class="boxInput" id="editSchool" type="text"  placeholder="学校"/></div>
+				<div class="col-xs-6">公司<input class="boxInput" id="editCompany" type="text"  placeholder="公司"/></div>
+				<div class="col-xs-6">工作<input class="boxInput" id="editWork" type="text"  placeholder="工作"/></div>
+				<div class="col-xs-12"><br /></div>
+				<div class="col-xs-6"><br /></div><div class="col-xs-6" style="text-align:right"><button class="editBtn" case="editMsg">修改</button></div>
+			</div>
+		</div>
+	
+		<div class="model"><!-- 模态框 -->
+			<div class="modelBox">
+				<h6 class="boxTitle" id="title">添加分类</h6>
+				<div class="editBox" glue="editPageIcon">
+					<div class="boxLogo">
+						<img class="boxIcon" src="" alt="LOGO" data="" id="pageIcon" glue="pageIcon"/>
+						<div class="boxUpload" case="upload">添加logo<input type="file" id="pageFile" case="pageFile" glue="pageFile"></div>
+					</div>
+				</div>
+				<div class="editBox" glue="editPhone">
+					<input class="iconInput" type="" placeholder="手机" id="name" />
+					<div><input class="iconInput" type="" placeholder="验证码" id="name" /><button>发送验证码</button></div>
+					<input class="iconInput" type="" placeholder="新手机" id="name" />
+				</div>
+				<div class="editBox" glue="editEmail">
+					<input class="iconInput" type="" placeholder="邮箱" id="name" />
+					<input class="iconInput" type="button" placeholder="验证码" id="name" />
+					<input class="iconInput" type="" placeholder="新邮箱" id="name" />
+				</div>
+				<div class="editBox" glue="editPwd">
+					<input class="iconInput" type="" placeholder="原密码" id="oldPwd" />
+					<input class="iconInput" type="" placeholder="新密码" id="newPwd" />
+					<input class="iconInput" type="" placeholder="新密码" id="newPwd2" />
+				</div>
+				<div class="editBox" glue="editTitle">
+					<input class="iconInput" type="" placeholder="网页标题" id="pageTitle" />
+				</div>
+
+				<div class="btnGroup">
+					<button class="confirm" case="boxConfirm">确定 CONFIRM</button>
+					<button class="cancel" case="boxCancel">取消 CANCEL</button>
+				</div>
+			</div>
+		</div>
+	<script type="text/javascript" src="../main/frame/layer/layer.js"></script>
+	<script type="text/javascript">
+		$.get('../api/user/get.php',function(e){
+			var json=JSON.parse(e);
+			if(json.result=="success"){
+				var data=json.msg[0];
+				$("#userIcon").attr({"src":data.user_icon,"data":data.user_icon});
+				$("#showPageIcon,#pageIcon").attr({"src":data.user_picon,"data":data.user_picon});
+				$("#showName").val(data.user_name);
+				$("#showEmail,#editEmail").val(data.user_email);
+				$("#showPhone,#editPhone").val(data.user_phone);
+				$("#showPwd,#editPwd").val(data.user_pwd);
+				
+				$("#editTitle,#pageTitle").val(data.user_title);
+				$("#editName").val(data.user_name);
+				$("#editEmail").val(data.user_email);
+				$("#editPhone").val(data.user_phone);
+				$("#editPwd").val(data.user_pwd);
+				$("#editNick").val(data.user_nick);
+				$("#editBirthday").val(data.user_birthday);
+				$("#editDegree").val(data.user_degree);
+				$("#editCompany").val(data.user_company);
+				$("#editSex").val(data.user_sex);
+				$("#editArea").val(data.user_area);
+				$("#editSchool").val(data.user_school);
+				$("#editWork").val(data.user_work);
+			}
+		});
+
+		function upload(file,url,fn){//提交图片
+			var formData = new FormData();
+			var file = document.getElementById(file);
+			formData.append("file",file.files[0]);
+			formData.append("name",file.value);
+			$.ajax({//上传图片
+				url : url, 
+				type : 'POST', 
+				data : formData, 
+				processData : false,
+				contentType : false,
+				beforeSend:function(){
+					console.log("正在进行，请稍候");
+				},
+				success : function(responseStr){
+					if(fn){fn(responseStr)};
+				}, 
+				error : function(responseStr) { 
+					
+				} 
+			});	
+		}
+	</script>
+	<script type="text/javascript">
+		
+		event("userFile",function(e){
+			var type=e.target.value.split(".").pop().toLowerCase();
+			if(type=='png'||type=="jpg"||type=="gif"){
+				upload('userFile','../api/upload.php',function(E){
+					var json=JSON.parse(E);
+					if(json.result=="success"){
+						$.post("../api/user/editIcon.php",{icon:json.msg},function(N){//更新图片数据
+							var Json=JSON.parse(N);
+							if(Json.result=="success"){
+								layer.alert("图片修改成功：");
+								$.post("../api/deleteImg.php",{icon:$('#userIcon').attr('data').split("/").pop()},function(E2){//删除旧图片
+									var json=JSON.parse(E2);
+									if(json.result=="success"){
+										
+										layer.alert("删除旧图片成功：");
+
+									}
+									else{
+										layer.alert("删除旧图片失败："+json.msg);
+									}
+								});
+							}
+							else{
+								layer.alert("图片修改失败："+Json.msg);
+							}
+						})
+						
+					}
+					else{
+						layer.alert("修改失败："+json.msg);
+					}
+				});
+				showImg("userFile","userIcon");
+			}
+			else{
+				layer.alert("请选择正确的图片！");
+			}
+			
+		},'change');
+		event("editMsg",function(){//修改用户信息
+			$.post('../api/user/editMsg.php',{
+				nick:$("#editNick").val(),
+				birthday:$("#editBirthday").val(),
+				degree:$("#editDegree").val(),
+				company:$("#editCompany").val(),
+				sex:$("#editSex").val(),
+				area:$("#editArea").val(),
+				school:$("#editSchool").val(),
+				work:$("#editWork").val()
+			},function(e){
+				var json=JSON.parse(e);
+				console.log(json);
+				if(json.result=="success"){
+					window.location.reload();
+				}
+			})
+		});
+		event("showEditBox",function(e){//显示模态框和相关元素
+			var type=$(e.target).attr('glue');
+			$(".model").show();
+			$(".model .editBox[glue='"+type+"']").show().siblings('.editBox[glue]').hide();
+			$("#title").attr("glue",type).html(e.target.innerHTML)
+		})
+		event("boxConfirm",function(){
+			switch($("#title").attr("glue")){
+				case "editPwd":
+					if($('#oldPwd').val()==""||$("#newPwd").val()==""){
+						layer.alert("请输入密码！");
+						return;
+					}
+					if($("#newPwd").val()==$("#oldPwd").val()){
+						layer.alert("新密码和原密码一致！");
+						return;
+					}
+					if($("#newPwd").val()!=$("#newPwd2").val()){
+						layer.alert("两次输入的密码不一致！");
+						return;
+					}
+					$.post('../api/user/editPwd.php',{pwd:$('#oldPwd').val(),npwd:$('#newPwd').val()},function(e){
+						var json=JSON.parse(e);
+						if(json.result=="success"){
+							$(".model").hide();
+							layer.alert("修改成功！");
+						}
+						else{
+							$(".model").hide();
+							layer.alert("修改失败："+json.msg);
+						}
+					})
+					break;
+				case "editTitle":
+					$.post('../api/user/editTitle.php',{title:$('#pageTitle').val()},function(e){
+						var json=JSON.parse(e);
+						if(json.result=="success"){
+							$(".model").hide();
+							layer.alert("修改成功！");
+						}
+						else{
+							$(".model").hide();
+							layer.alert("修改失败："+json.msg);
+						}
+					})
+					break;
+				case "editPageIcon":
+					if($('#pageIcon').attr('src')!=$('#pageIcon').attr('data')){//图片改变了
+						upload('pageFile','../api/upload.php',function(e){
+							var json=JSON.parse(e);
+							if(json.result=="success"){
+								$.post("../api/user/editPageIcon.php",{picon:json.msg},function(E){
+									var Json=JSON.parse(E);
+									if(json.result=="success"){
+										window.location.reload();
+									}
+									else{
+										layer.alert("修改失败："+json.msg);
+									}
+								})
+							}
+							else{
+								layer.alert("修改失败："+json.msg);
+							}
+						});
+
+						$.post("../api/deleteImg.php",{icon:$('#pageIcon').attr('data').split("/").pop()},function(e){
+							var json=JSON.parse(e);
+							if(json.result=="success"){
+								console.log(1);
+							}
+							else{
+								layer.alert("删除旧图片失败："+json.msg);
+							}
+						});
+					}
+					break;
+				default:
+					console.log(2);
+			}
+
+		});
+		event("boxCancel",function(){
+			$('.model').hide();
+		});
+		event("pageFile",function(){
+			showImg("pageFile","pageIcon");
+		},'change');
+	</script>
+ </body>
+</html>

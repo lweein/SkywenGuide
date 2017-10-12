@@ -1,0 +1,331 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="../main/css/login.css" rel="stylesheet">
+	<script type="text/javascript" src="http://qzonestyle.gtimg.cn/qzone/openapi/qc_loader.js" data-appid="101426002" data-redirecturi="http://n.skywen.cn/page/login.html" charset="utf-8"></script>
+    <title>登录</title>
+	<style type="text/css">
+		.login_account,.perfect_account,.bind_account{
+			display:none;
+		}
+		.login_account{
+			display:block;
+		}
+		.perfect_account{
+			display:none;
+		}
+		.otherLogin{
+			text-align:center;
+			position:relative;
+			color: #afafaf;
+			margin-bottom:10px;
+		}
+		.otherLogin:before{
+			content:".";
+			color:transparent;
+			border-bottom: solid 1px #eaeaea;
+			width:120px;
+			display:inline-block;
+			position:absolute;
+			left:0;
+			top:-5px;
+		}
+		.otherLogin:after{
+			content:".";
+			color:transparent;
+			border-bottom: solid 1px #eaeaea;
+			width:120px;
+			display:inline-block;
+			position:absolute;
+			right:0;
+			top:-5px;
+		}
+		.loginBtn_qq{
+			display:inline-block;
+			border-radius:50%;
+			width:40px;
+			height:40px;
+			overflow:hidden;
+			text-align:center;
+			background:#ddd url(../main/img/qq.png) no-repeat;
+			background-size:25px 25px;
+			background-position:7px 7px;
+			cursor:pointer;
+		}
+		.loginBtn_qq:hover{
+			background-color:#00B0FB;
+		}
+
+		.login_title .noactive{
+			color:#ddd;
+		}
+		.login_title span{
+			cursor:pointer;
+		}
+	</style>
+</head>
+<body  case="keyUp">
+    <div class="container">
+		<img class="logo" src="../main/img/logo.svg" alt="天问信息" />
+		
+        <div class="login login_account" id="login_account">
+            <h3 class="login_title">登录</h3>
+            <div class="logon_form">
+                <span class="login_msg">请输入您的账号密码</span>
+				<div class="login_box">
+                    <span class="login_text">帐号</span>
+					<input type="text" class="login_input" id="account" placeholder="手机号 / 账号" max="15" case="keyUp">
+                </div>
+                <div class="login_box">
+                    <span class="login_text">密码</span>
+					<input type="password" class="login_input" id="pwd"placeholder="密码"max="20"  case="keyUp">
+                </div>
+				 <div class="login_box">
+					<button  class="login_btn" case="loginBtn">登录</button>
+				</div>
+				<div class="login_box">
+					<p class="login_zc">如果还没有创建账号，<a href="register.html">点击这里</a>创建新的帐号
+					
+				</div>
+				<div class="login_box">
+					<div class="otherLogin">其他登录方式</div>
+					<div  class="loginBtn_qq"  case="qqLogin"></div>
+				</div>
+            </div>
+        </div>
+		<div class="login perfect_account" id="perfect_account">
+			<h3 class="login_title" style="text-align:center;"><span>完善新帐号</span> | <span class="noactive" case="switchToBind">绑定原有账号</span></h3>
+			<div class="logon_form">
+                <span class="login_msg">请输入您的账号密码</span>
+				<div class="login_box">
+                    <span class="login_text">帐号</span>
+					<input type="text" class="login_input" id="perfect_name" placeholder="账号" max="15">
+                </div>
+				<div class="login_box">
+                    <span class="login_text">手机号 </span>
+					<input type="text" class="login_input" id="perfect_phone" placeholder="手机号" max="15">
+                </div>
+                <div class="login_box">
+                    <span class="login_text">密码</span>
+					<input type="password" class="login_input" id="perfect_pwd"placeholder="密码"max="20">
+                </div>
+				 <div class="login_box">
+					<button  class="login_btn" case="perfect_Btn">提交</button>
+				</div>
+				<div class="login_box">
+                    <a href="#" case="exitQQ">退出绑定</a>
+                </div>
+            </div>
+		</div>
+		<div class="login bind_account" id="bind_account">
+			<h3 class="login_title" style="text-align:center;"><span  class="noactive"  case="switchToPerfect">完善新帐号</span> | <span>绑定原有账号</span></h3>
+			<div class="logon_form">
+                <span class="login_msg">请输入您的账号密码</span>
+				<div class="login_box">
+                    <span class="login_text">帐号</span>
+					<input type="text" class="login_input" id="bind_phoneOrName" placeholder="手机号 / 账号" max="15">
+                </div>
+                <div class="login_box">
+                    <span class="login_text">密码</span>
+					<input type="password" class="login_input" id="bind_pwd"placeholder="密码"max="20">
+                </div>
+				 <div class="login_box">
+					<button  class="login_btn" case="bind_Btn">提交</button>
+				</div>
+				<div class="login_box">
+                    <a href="#" case="exitQQ">退出绑定</a>
+                </div>
+            </div>
+		</div>
+    </div>
+	<div style="display:none" id="hideDom" qq-data=""><span id="qqLoginBtn"></span></div>
+    <script src="../main/js/jquery-2.0.0.min.js"></script>
+	<script type="text/javascript" src="../main/frame/layer/layer.js"></script>
+	<script type="text/javascript" src="../main/js/reunite0.0.3.js"></script>
+	<script type="text/javascript">
+		function login(){
+			var phone=new RegExp(/^0?(13|14|15|17|18)[0-9]{9}$/);
+			var account=new RegExp(/^[a-zA-Z][a-zA-Z0-9\d_]{0,15}$/);
+			var pwd=new RegExp(/^[a-zA-Z\d_]{6,20}$/);
+			var key=navigator.appName+navigator.appVersion+screen.width+screen.height;
+			var data={pwd:$("#pwd").val(),key:key};
+			
+			if(phone.test($("#account").val())){
+				data["phone"]=$("#account").val();
+			}
+			else if(account.test($("#account").val())){
+				data["name"]=$("#account").val();
+			}
+			else{
+				layer.alert("您输入的帐号/手机号有误！");
+				return;
+			}
+			$.post("../api/user/login.php",data,function(e){
+					var json=JSON.parse(e);
+					if(json.result=='success'){//登录成功
+						window.location.href="index.php";
+						localStorage.skywenUid=json.msg[0].user_id;
+						localStorage.skywenToken=json.msg[0].user_token;
+					}
+					else{//登录失败
+						layer.alert(json.msg);
+					}
+			});			
+		}
+		event("loginBtn",function(){
+			login();
+		});
+		event("keyUp",function(e){
+			if(e.keyCode==13){
+				login();
+			};
+		},"keyup");
+		event("qqLogin",function(){
+			//QC.Login.showPopup({appId:"101426002", redirectURI:"http://n.skywen.cn/page/index.php"});
+			//window.close();
+			location.href="https://graph.qq.com/oauth/show?which=Login&display=pc&client_id=101426002&response_type=token&scope=all&redirect_uri=http%3A%2F%2Fn.skywen.cn%2Fpage%2Flogin.html";
+		})
+	</script>
+
+		<!-- qq登陆检验 -->
+	<script type="text/javascript">
+   //调用QC.Login方法，指定btnId参数将按钮绑定在容器节点中
+   QC.Login({
+       //btnId：插入按钮的节点id，必选
+       btnId:"qqLoginBtn",	
+       //用户需要确认的scope授权项，可选，默认all
+       scope:"all",
+       //按钮尺寸，可用值[A_XL| A_L| A_M| A_S|  B_M| B_S| C_S]，可选，默认B_S
+       size: "A_M"
+   }, function(reqData, opts){//qq授权成功
+			QC.Login.getMe(function(openId, accessToken){
+				var key=navigator.appName+navigator.appVersion+screen.width+screen.height;
+				//获取openid 与后台交互
+				$.post('../api/user/qqLogin.php',{qq_id:openId,key:key},function(e){
+					var json=JSON.parse(e);
+					console.log(json)
+					if(json.result=="success"&&json.event=="login"){//登录
+						location.href="index.php";
+						localStorage.skywenUid=json.msg[0].user_id;
+						localStorage.skywenToken=json.msg[0].user_token;
+						QC.Login.signOut();
+					}
+					else if(json.result=="success"&&json.event=="perfectOrBind"){//绑定/完善帐号
+						$("#login_account").hide();
+						$("#perfect_account").show();
+						$("#bind_account").hide();
+						$("#hideDom").attr({"qq-id":openId,"qq-nick":reqData.nickname,"qq-icon":reqData.figureurl_qq_1});
+					}
+					
+				});
+			});
+   }, function(opts){//注销成功
+		//alert('QQ登录 注销成功');
+    }
+);
+</script>
+<script type="text/javascript">
+	event("switchToPerfect",function(){//切换到完善帐号
+		$("#perfect_account").show();
+		$("#bind_account").hide();
+
+	});
+	event("switchToBind",function(){//切换到绑定原有账号
+		$("#perfect_account").hide();
+		$("#bind_account").show();
+	});
+	event("exitQQ",function(){
+		QC.Login.signOut();
+		location.reload();
+	})
+	event("perfect_Btn",function(e){//完善新账号
+		if($("#hideDom").attr("qq-id")==""){//判断没有qq_id时恢复到普通登录
+			$("#login_account").show();
+			$("#perfect_account").hide();
+			$("#bind_account").hide();
+			return;
+		}
+		var phone=new RegExp(/^0?(13|14|15|17|18)[0-9]{9}$/);
+		var account=new RegExp(/^[a-zA-Z][a-zA-Z0-9\d_]{0,15}$/);
+		var pwd=new RegExp(/^[a-zA-Z\d_]{6,20}$/);
+		var key=navigator.appName+navigator.appVersion+screen.width+screen.height;
+		if(!account.test($("#perfect_name").val())){
+			layer.alert("用户名格式错误");
+			return;
+		}
+		if(!phone.test($("#perfect_phone").val())){
+			layer.alert("手机格式错误");
+			return;
+		}
+		if(!pwd.test($("#perfect_pwd").val())){
+			layer.alert("密码格式错误");
+			return;
+		}
+		var data={
+			name:$("#perfect_name").val(),
+			phone:$("#perfect_phone").val(),
+			pwd:$("#perfect_pwd").val(),
+			qq_id:$("#hideDom").attr("qq-id"),
+			nick:$("#hideDom").attr("qq-nick"),
+			icon:$("#hideDom").attr("qq-icon"),
+			key:key
+		}
+		$.post("../api/user/qqPerfect.php",data,function(e){
+			var json=JSON.parse(e);
+			if(json.result=='success'){//登录成功
+					localStorage.skywenUid=json.msg[0].user_id;
+					localStorage.skywenToken=json.msg[0].user_token;
+					window.location.href='index.php';
+					QC.Login.signOut();
+			}
+			else{
+				var msg=json.msg;
+				if(msg.indexOf("user_name")>1){
+					layer.alert("此用户名已被注册！");
+				}
+				if(msg.indexOf("user_phone")>1){
+					layer.alert("此手机号已被注册！");
+				}
+				if(msg.indexOf("qq_id")>1){
+					layer.alert("此QQ号已被绑定！");
+				}
+			}
+		});
+	});
+
+	event("bind_Btn",function(){//绑定已有帐号
+		var phone=new RegExp(/^0?(13|14|15|17|18)[0-9]{9}$/);
+		var account=new RegExp(/^[a-zA-Z][a-zA-Z0-9\d_]{0,15}$/);
+		var pwd=new RegExp(/^[a-zA-Z\d_]{6,20}$/);
+		var key=navigator.appName+navigator.appVersion+screen.width+screen.height;
+		var data={pwd:$("#bind_pwd").val(),key:key,qq_id:$("#hideDom").attr("qq-id")};
+		
+		if(phone.test($("#bind_phoneOrName").val())){
+			data["phone"]=$("#bind_phoneOrName").val();
+		}
+		else if(account.test($("#bind_phoneOrName").val())){
+			data["name"]=$("#bind_phoneOrName").val();
+		}
+		else{
+			layer.alert("您输入的帐号/手机号有误！");
+			return;
+		}
+		$.post("../api/user/qqBind.php",data,function(e){
+				var json=JSON.parse(e);
+				console.log(json);
+				if(json.result=='success'){//登录成功
+					window.location.href="index.php";
+					localStorage.skywenUid=json.msg[0].user_id;
+					localStorage.skywenToken=json.msg[0].user_token;
+					QC.Login.signOut();
+				}
+				else{//登录失败
+					layer.alert(json.msg);
+				}
+		});			
+	})
+</script>
+</body>
+</html>
+
